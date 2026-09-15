@@ -3,20 +3,50 @@
 **Production-Grade API Key Validation Framework**  
 Comprehensive, secure, and professional validation for all your API keys and credentials.
 
-## 🎯 Supported Services
+## 🎯 Supported Services (19 Validators)
 
+### Email & Marketing
 | Service | Type | Format | Features |
 |---------|------|--------|----------|
 | **SendGrid** | Email | `SG.xxxxx` | Quota, reputation, scopes |
-| **Twilio** | SMS/Voice | `SID:TOKEN` | SMS countries, balance, phone numbers |
-| **Stripe** | Payments | `sk_live/test_xxxxx` | EUR balance, charges, business info |
 | **Brevo** | Email Marketing | `xkeysib_xxxxx` | Credits, lists, IP restrictions |
 | **Mailchimp** | Email Marketing | `key-dc` | Lists, members, campaigns, datacenter |
+
+### Cloud & Infrastructure
+| Service | Type | Format | Features |
+|---------|------|--------|----------|
 | **AWS** | Cloud | `ACCESS_KEY:SECRET_KEY` | Regions, quotas, permissions, services |
-| **GitHub** | Repository | `token` | User, scopes, rate limit |
-| **GitLab** | Repository | `token` | User, projects |
+| **Azure** | Cloud | Bearer Token | Subscriptions, access tokens |
+| **GCP** | Cloud | Service Account JSON / Bearer Token | Project info, user details |
+| **DigitalOcean** | Hosting | Bearer Token | Account, droplets, billing |
+| **Heroku** | Hosting | Bearer Token | Apps, dynos, account info |
+
+### Version Control & Collaboration
+| Service | Type | Format | Features |
+|---------|------|--------|----------|
+| **GitHub** | Repository | `ghp_xxxxx` | User, scopes, rate limit |
+| **GitLab** | Repository | `glpat_xxxxx` | User, projects, groups |
+| **Gitea** | Repository | `URL:TOKEN` | User, repositories, instance |
+| **Bitbucket** | Repository | `USERNAME:PASSWORD` | User, repositories, workspace |
+
+### Communication & Services
+| Service | Type | Format | Features |
+|---------|------|--------|----------|
+| **Twilio** | SMS/Voice | `SID:TOKEN` | SMS countries, balance, phone numbers |
+| **Slack** | Messaging | `xoxb/xoxp_token` | Workspace info, users, channels |
 | **MongoDB** | Database | `PUBLIC:PRIVATE` | Organizations, clusters |
-| **Slack** | Messaging | `xoxb/xoxp_token` | Workspace info |
+
+### Package Registries & ML
+| Service | Type | Format | Features |
+|---------|------|--------|----------|
+| **NPM** | Package Registry | Token | User, email |
+| **PyPI** | Package Registry | `pypi-xxxxx` | Token verification |
+| **HuggingFace** | ML Models | Bearer Token | User info, models count |
+
+### Payments
+| Service | Type | Format | Features |
+|---------|------|--------|----------|
+| **Stripe** | Payments | `sk_live/test_xxxxx` | EUR balance, charges, business info |
 
 ## 📋 Installation
 
@@ -58,7 +88,16 @@ keys/
 ├── github.txt
 ├── gitlab.txt
 ├── mongodb.txt
-└── slack.txt
+├── slack.txt
+├── huggingface.txt
+├── azure.txt
+├── gcp.txt
+├── digitalocean.txt
+├── heroku.txt
+├── gitea.txt
+├── bitbucket.txt
+├── npm.txt
+└── pypi.txt
 ```
 
 ### Step 2: Add Your Keys
@@ -234,6 +273,49 @@ SUMMARY
 - **xoxp**: User token
 - **Length**: 100+ characters
 
+### HuggingFace
+- **Format**: Bearer token
+- **Length**: 20+ characters
+- **Access**: API tokens from huggingface.co/settings/tokens
+
+### Azure
+- **Format**: Bearer token or subscription key
+- **Length**: 30+ characters
+
+### GCP
+- **Format**: Service account JSON or Bearer token (ya29.*)
+- **Service Account**: JSON file with project_id and email
+
+### DigitalOcean
+- **Format**: Bearer token (API token)
+- **Length**: 30+ characters
+- **Access**: https://cloud.digitalocean.com/account/api/tokens
+
+### Heroku
+- **Format**: Bearer token (API key)
+- **Length**: 20+ characters
+- **Access**: heroku.com/account/settings/applications
+
+### Gitea
+- **Format**: `URL:TOKEN`
+- **Example**: `https://git.mycompany.com:token_value`
+- **Token Length**: 20+ characters
+
+### Bitbucket
+- **Format**: `USERNAME:PASSWORD` or app password
+- **Username**: Bitbucket username
+- **Password**: App password or personal password
+
+### NPM
+- **Format**: Bearer token or `npm_xxxxx`
+- **Length**: 20+ characters
+- **Access**: https://www.npmjs.com/settings/~/tokens
+
+### PyPI
+- **Format**: `pypi-xxxxxxxxxxxxxxxxxxxxx`
+- **Length**: 20+ characters
+- **Prefix**: Must start with `pypi-`
+
 ## 📖 Detailed Information Collected
 
 ### Per Service
@@ -310,6 +392,62 @@ SUMMARY
 - ✓ Team name & ID
 - ✓ User ID
 - ✓ Token type (bot/user)
+
+#### HuggingFace
+- ✓ Username
+- ✓ Full name
+- ✓ Email address
+- ✓ Avatar URL
+- ✓ Models count
+
+#### Azure
+- ✓ Subscriptions count
+- ✓ Subscription IDs
+- ✓ Resource groups
+
+#### GCP
+- ✓ Project ID
+- ✓ Service account email (if applicable)
+- ✓ User email (if user token)
+- ✓ Cloud resources info
+
+#### DigitalOcean
+- ✓ Account email
+- ✓ Account status
+- ✓ Droplet limit & count
+- ✓ Floating IP limit
+- ✓ Resource usage
+
+#### Heroku
+- ✓ Account email & ID
+- ✓ Apps count
+- ✓ Dyno usage
+- ✓ Organization info (if applicable)
+
+#### Gitea
+- ✓ Username & full name
+- ✓ Email address
+- ✓ Instance URL
+- ✓ Repositories count
+- ✓ Organization access
+
+#### Bitbucket
+- ✓ Username & display name
+- ✓ Email address
+- ✓ Workspace info
+- ✓ Repositories count
+- ✓ Team access
+
+#### NPM
+- ✓ Username
+- ✓ Email address
+- ✓ Access level
+- ✓ Package count
+
+#### PyPI
+- ✓ Token type verification
+- ✓ Token validity
+- ✓ Package access
 
 ## 🔒 Security Best Practices
 
