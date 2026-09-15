@@ -1,0 +1,8 @@
+api-key-validators/**/list.txt
+api-key-validators/**/results.txt
+api-key-validators/**/.env
+*.pyc
+__pycache__/
+.env
+.env.local
+venv/
