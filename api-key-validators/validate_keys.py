@@ -26,6 +26,17 @@ from validators.other_validators import (
     MongoDBValidator,
     SlackValidator
 )
+from validators.additional_validators import (
+    HuggingFaceValidator,
+    AzureValidator,
+    GCPValidator,
+    DigitalOceanValidator,
+    HerokuValidator,
+    GiteaValidator,
+    BitbucketValidator,
+    NpmValidator,
+    PyPiValidator
+)
 
 
 SERVICE_VALIDATORS = {
@@ -39,6 +50,15 @@ SERVICE_VALIDATORS = {
     "gitlab": GitLabValidator,
     "mongodb": MongoDBValidator,
     "slack": SlackValidator,
+    "huggingface": HuggingFaceValidator,
+    "azure": AzureValidator,
+    "gcp": GCPValidator,
+    "digitalocean": DigitalOceanValidator,
+    "heroku": HerokuValidator,
+    "gitea": GiteaValidator,
+    "bitbucket": BitbucketValidator,
+    "npm": NpmValidator,
+    "pypi": PyPiValidator,
 }
 
 COLORS = {
@@ -233,7 +253,9 @@ Examples:
 
 Supported services:
   sendgrid, twilio, stripe, brevo, mailchimp, aws,
-  github, gitlab, mongodb, slack
+  github, gitlab, mongodb, slack,
+  huggingface, azure, gcp, digitalocean, heroku,
+  gitea, bitbucket, npm, pypi
         """
     )
 
