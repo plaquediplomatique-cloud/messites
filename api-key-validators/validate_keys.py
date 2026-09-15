@@ -230,7 +230,7 @@ class KeyValidator:
         keys = self.scan_keys()
 
         if not keys:
-            print(f"{COLORS['YELLOW']}⚠ No key files found. Expected format: {service}.txt{COLORS['RESET']}")
+            print(f"{COLORS['YELLOW']}⚠ No key files found. Expected format: service.txt (e.g., sendgrid.txt, github.txt){COLORS['RESET']}")
             return
 
         for service in sorted(keys.keys()):
