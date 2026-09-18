@@ -12,10 +12,10 @@ const Question6: React.FC<Question6Props> = ({ onAnswer, onEasterEgg }) => {
   const { playSound } = useSound()
 
   const options = [
-    { label: '🔥 "C\'est un mec chaud"', emoji: '🥵', reaction: 'Hehe c\'est noté 😏' },
+    { label: "🔥 \"C'est un mec chaud\"", emoji: '🥵', reaction: "Hehe c'est noté 😏" },
     { label: '😍 "Tu es tellement beau"', emoji: '💕', reaction: 'Je le savais déjà 💅' },
-    { label: '😂 "Pourquoi tu me fais ça?"', emoji: '💀', reaction: 'C\'est qu\'une photo bro calme 😭' },
-    { label: '🤨 "Bro c\'est 3h du matin"', emoji: '😴', reaction: 'Tu dormais? Oups 👀' },
+    { label: "😂 \"Pourquoi tu me fais ça?\"", emoji: '💀', reaction: "C'est qu'une photo bro calme 😭" },
+    { label: "🤨 \"Bro c'est 3h du matin\"", emoji: '😴', reaction: 'Tu dormais? Oups 👀' },
   ]
 
   const handleAnswer = (answer: string) => {

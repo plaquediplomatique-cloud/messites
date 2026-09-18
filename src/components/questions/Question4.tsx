@@ -44,11 +44,11 @@ const Question4: React.FC<Question4Props> = ({ onAnswer, onEasterEgg }) => {
 
   const getLabel = () => {
     if (sliderValue < 20) return 'Vraiment chill... suspicieux 👀'
-    if (sliderValue < 40) return 'Un peu énervant mais c\'est bon'
-    if (sliderValue < 60) return 'C\'est acceptable pour un humain'
+    if (sliderValue < 40) return "Un peu énervant mais c'est bon"
+    if (sliderValue < 60) return "C'est acceptable pour un humain"
     if (sliderValue < 80) return 'OK ça devient dangereux là ngl'
-    if (sliderValue < 95) return 'POURQUOI TU M\'AIMES AUTANT 😭😭😭'
-    return 'BRO T\'ES DANGEREUSE T\'ES OBSÉDÉE DE MOI 💀'
+    if (sliderValue < 95) return "POURQUOI TU M'AIMES AUTANT 😭😭😭"
+    return "BRO T'ES DANGEREUSE T'ES OBSÉDÉE DE MOI 💀"
   }
 
   return (

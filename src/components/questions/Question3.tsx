@@ -8,7 +8,7 @@ interface Question3Props {
 }
 
 const reactions = {
-  Moi: { text: 'Au moins t\'es honnête 😂', emoji: '🤡', sound: 'fart' },
+  Moi: { text: "Au moins t'es honnête 😂", emoji: '🤡', sound: 'fart' },
   Toi: { text: 'Les femmes sages... 👑', emoji: '👸', sound: 'dab' },
   'Ça dépend': { text: 'Réponse de sage 🧠', emoji: '🤓', sound: 'ding' },
   'Le gouvernement': { text: 'QUOI?????? 💀', emoji: '🤪', sound: 'bruh' },

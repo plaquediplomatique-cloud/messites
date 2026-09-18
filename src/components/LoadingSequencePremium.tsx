@@ -6,7 +6,7 @@ interface LoadingSequencePremiumProps {
 }
 
 const messages = [
-  { text: '📡 Connexion au serveur de l\'amour...', emoji: '💕' },
+  { text: "📡 Connexion au serveur de l'amour...", emoji: '💕' },
   { text: '💫 Analyse quantique de compatibilité...', emoji: '⚛️' },
   { text: '🦋 Téléchargement des papillons virtuels...', emoji: '🦋' },
   { text: '😊 Vérification du coefficient de mignonnerie...', emoji: '✨' },
@@ -79,7 +79,7 @@ const LoadingSequencePremium: React.FC<LoadingSequencePremiumProps> = ({ progres
           >
             Test Ultime
           </motion.h1>
-          <p className="text-gray-500 font-semibold">L\'évaluation officielle</p>
+          <p className="text-gray-500 font-semibold">L'évaluation officielle</p>
         </motion.div>
 
         {/* Loading bar - Premium */}
@@ -155,10 +155,10 @@ const LoadingSequencePremium: React.FC<LoadingSequencePremiumProps> = ({ progres
               </motion.p>
               <p className="text-red-600 font-bold">Code: HEART_OVERFLOW_CRITICAL</p>
               <p className="text-red-500 text-sm mt-2 italic">
-                Le système d\'amour a surpassé ses limites normales 💕
+                Le système d'amour a surpassé ses limites normales 💕
               </p>
               <p className="text-red-400 text-xs mt-3">
-                (C\'est trop beau pour être vrai... mais ça l\'est 😭)
+                (C'est trop beau pour être vrai... mais ça l'est 😭)
               </p>
             </div>
           </motion.div>

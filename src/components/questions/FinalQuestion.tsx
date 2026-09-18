@@ -11,7 +11,7 @@ interface FinalQuestionProps {
 const noTexts = [
   'NON',
   'Vraiment ?',
-  'T\'es sûre ?',
+  "T'es sûre ?",
   'Réfléchis bien...',
   '😐',
   'Bro...',
@@ -147,7 +147,7 @@ const FinalQuestion: React.FC<FinalQuestionProps> = ({ onAnswer, onEasterEgg }) 
           className="card-premium p-4 bg-yellow-100 border-yellow-300 text-center border-3"
         >
           <motion.p className="text-yellow-800 font-black text-lg">
-            ⚠️ Le bouton NON essaie de s\'échapper...
+            ⚠️ Le bouton NON essaie de s'échapper...
           </motion.p>
         </motion.div>
       )}
@@ -194,7 +194,7 @@ const FinalQuestion: React.FC<FinalQuestionProps> = ({ onAnswer, onEasterEgg }) 
             transition={{ duration: 0.8, repeat: Infinity }}
             className="text-2xl font-black text-gray-800"
           >
-            C\'est signé, c\'est officiel maintenant 🔐
+            C'est signé, c'est officiel maintenant 🔐
           </motion.p>
         </motion.div>
       )}

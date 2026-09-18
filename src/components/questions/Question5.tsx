@@ -75,12 +75,12 @@ const Question5: React.FC<Question5Props> = ({ onAnswer, onEasterEgg }) => {
           animate={{ opacity: 1, y: 0 }}
           className="text-gray-700 font-bold mb-6 text-lg"
         >
-          {kisses === 0 && '⏳ La machine de l\'amour démarre...'}
-          {kisses > 0 && kisses < 25 && '📈 C\'est un bon début...'}
+          {kisses === 0 && "⏳ La machine de l'amour démarre..."}
+          {kisses > 0 && kisses < 25 && "📈 C'est un bon début..."}
           {kisses >= 25 && kisses < 50 && '🚀 Ça monte fort là!'}
-          {kisses >= 50 && kisses < 100 && '⚡ HOLD UP C\'est DEU! 😭'}
-          {kisses >= 100 && kisses < 200 && '💀 T\'ES SÉRIEUSE LÀ??? STOP!'}
-          {kisses >= 200 && '🌟 OK C\'EST L\'INFINI MAINTENANT TU M\'TUES'}
+          {kisses >= 50 && kisses < 100 && "⚡ HOLD UP C'est DEU! 😭"}
+          {kisses >= 100 && kisses < 200 && "💀 T'ES SÉRIEUSE LÀ??? STOP!"}
+          {kisses >= 200 && "🌟 OK C'EST L'INFINI MAINTENANT TU M'TUES"}
         </motion.p>
 
         {!hasAnswered && (

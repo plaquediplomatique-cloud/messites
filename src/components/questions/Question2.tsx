@@ -14,7 +14,7 @@ const reactions = {
     color: 'from-red-100 to-pink-100',
   },
   Absolument: {
-    text: 'C\'est fou ça 🔥',
+    text: "C'est fou ça 🔥",
     emoji: '🤩',
     color: 'from-orange-100 to-yellow-100',
   },
@@ -24,7 +24,7 @@ const reactions = {
     color: 'from-blue-100 to-purple-100',
   },
   'Je refuse de répondre': {
-    text: 'Haha j\'comprends 🤐',
+    text: "Haha j'comprends 🤐",
     emoji: '🤫',
     color: 'from-gray-100 to-slate-100',
   },

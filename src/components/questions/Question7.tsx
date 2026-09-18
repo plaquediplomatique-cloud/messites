@@ -13,8 +13,8 @@ const Question7: React.FC<Question7Props> = ({ onAnswer, onEasterEgg }) => {
 
   const scenarios = [
     {
-      text: '...j\'oublie ton anniversaire 💀',
-      options: ['Très très énervé', 'Assez énervé', 'Ça va', 'Je m\'en fous'],
+      text: "...j'oublie ton anniversaire 💀",
+      options: ['Très très énervé', 'Assez énervé', 'Ça va', "Je m'en fous"],
       emoji: '🎂'
     }
   ]
@@ -24,7 +24,7 @@ const Question7: React.FC<Question7Props> = ({ onAnswer, onEasterEgg }) => {
   const handleAnswer = (answer: string) => {
     if (answer === 'Très très énervé') {
       playSound('fail')
-    } else if (answer === 'Je m\'en fous') {
+    } else if (answer === "Je m'en fous") {
       playSound('dab')
     } else {
       playSound('success')
@@ -94,7 +94,7 @@ const Question7: React.FC<Question7Props> = ({ onAnswer, onEasterEgg }) => {
           className={`card-base p-6 text-center border-2 ${
             selectedAnswer === 'Très très énervé'
               ? 'bg-gradient-to-br from-red-50 to-rose-50 border-red-300'
-              : selectedAnswer === 'Je m\'en fous'
+              : selectedAnswer === "Je m'en fous"
               ? 'bg-gradient-to-br from-green-50 to-emerald-50 border-green-300'
               : 'bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-300'
           }`}
@@ -105,13 +105,13 @@ const Question7: React.FC<Question7Props> = ({ onAnswer, onEasterEgg }) => {
             className="font-bold text-lg mb-2"
           >
             {selectedAnswer === 'Très très énervé' ? (
-              <span className="text-red-600">😱 OK JE NOTE! JAMAIS J\'OUBLIERAI!</span>
+              <span className="text-red-600">😱 OK JE NOTE! JAMAIS J'OUBLIERAI!</span>
             ) : selectedAnswer === 'Assez énervé' ? (
               <span className="text-orange-600">😅 Attention noté, je vais mettre une alarme</span>
             ) : selectedAnswer === 'Ça va' ? (
               <span className="text-blue-600">😎 Cool, on peut chill sur ce sujet</span>
             ) : (
-              <span className="text-green-600">💀 T\'ES DÉSINVOLTE LÀ... J\'AIME ÇA</span>
+              <span className="text-green-600">💀 T'ES DÉSINVOLTE LÀ... J'AIME ÇA</span>
             )}
           </motion.p>
           <p className="text-sm text-gray-600 font-semibold">

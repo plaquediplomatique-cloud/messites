@@ -6,7 +6,7 @@ interface LoadingSequenceProps {
 }
 
 const messages = [
-  '📡 Connexion au serveur de l\'amour...',
+  "📡 Connexion au serveur de l'amour...",
   '💫 Analyse de la compatibilité...',
   '🦋 Téléchargement des papillons...',
   '😊 Vérification du niveau de mignonnerie...',

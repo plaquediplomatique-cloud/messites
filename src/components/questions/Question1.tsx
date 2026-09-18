@@ -12,9 +12,9 @@ const wrongMessages = [
   { text: 'Pardon ???', emoji: '😤', sound: 'fart' },
   { text: 'NAH BRO 💀', emoji: '💀', sound: 'bruh' },
   { text: 'Ça pue la débilité', emoji: '🤢', sound: 'cringe' },
-  { text: 'T\'es sérieux là?', emoji: '😭', sound: 'fail' },
+  { text: "T'es sérieux là?", emoji: '😭', sound: 'fail' },
   { text: 'Je vais crier', emoji: '😱', sound: 'dab' },
-  { text: 'C\'était quoi ça???', emoji: '🤨', sound: 'error' },
+  { text: "C'était quoi ça???", emoji: '🤨', sound: 'error' },
   { text: 'Big fail 💀', emoji: '🚨', sound: 'fail' },
   { text: 'Ça me tue 😂', emoji: '⚰️', sound: 'fart' },
 ]
@@ -134,7 +134,7 @@ const Question1: React.FC<Question1Props> = ({ onAnswer, onEasterEgg }) => {
             ✓ CORRECT ❤️
           </motion.p>
           <p className="text-lg text-rose-700 font-bold mt-2">
-            T\'as ENFIN bon goût 😎
+            T'as ENFIN bon goût 😎
           </p>
         </motion.div>
       )}
