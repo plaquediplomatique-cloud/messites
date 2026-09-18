@@ -34,12 +34,13 @@ async def on_ready():
     if guild:
         print(f"📍 Serveur trouvé: {guild.name}")
 
-        setup_roles(guild)
-        setup_permissions(guild)
+        await setup_roles(guild)
+        await setup_permissions(guild)
+        await analyze_server(guild)
 
         print("✨ Configuration terminée!")
 
-def setup_roles(guild):
+async def setup_roles(guild):
     """Crée les rôles s'ils n'existent pas"""
     all_roles = {role.name for role in guild.roles}
 
@@ -69,9 +70,20 @@ def setup_roles(guild):
         "Tablette",
     ]
 
+    created_count = 0
     for role_name in roles_to_create:
         if role_name not in all_roles:
-            print(f"📝 Création du rôle: {role_name}")
+            try:
+                await guild.create_role(name=role_name)
+                created_count += 1
+                print(f"✅ Rôle créé: {role_name}")
+            except Exception as e:
+                print(f"❌ Erreur création rôle {role_name}: {e}")
+
+    if created_count > 0:
+        print(f"✨ {created_count} rôles créés!")
+    else:
+        print("✅ Tous les rôles existent déjà!")
 
 @bot.event
 async def on_raw_reaction_add(payload):
@@ -135,20 +147,55 @@ async def on_raw_reaction_remove(payload):
             except Exception as e:
                 print(f"❌ Erreur: {e}")
 
-def setup_permissions(guild):
-    """Configure les permissions des salons admin"""
-    for channel in guild.channels:
-        if any(admin_name in channel.name for admin_name in config.ADMIN_CHANNELS):
-            staff_role = discord.utils.get(guild.roles, name=config.STAFF_ROLE)
-            everyone_role = guild.default_role
+async def setup_permissions(guild):
+    """Configure les permissions de tous les salons"""
+    staff_role = discord.utils.get(guild.roles, name=config.STAFF_ROLE)
+    everyone_role = guild.default_role
+    updated_count = 0
 
-            if staff_role:
-                try:
-                    channel.set_permissions(everyone_role, view_channel=False)
-                    channel.set_permissions(staff_role, view_channel=True)
-                    print(f"🔒 Permission mise à jour pour #{channel.name}")
-                except Exception as e:
-                    print(f"❌ Erreur permission {channel.name}: {e}")
+    print("\n📍 Configuration des permissions:")
+    for channel in guild.channels:
+        if isinstance(channel, discord.TextChannel):
+            if any(admin_name in channel.name for admin_name in config.ADMIN_CHANNELS):
+                if staff_role:
+                    try:
+                        await channel.set_permissions(everyone_role, view_channel=False)
+                        await channel.set_permissions(staff_role, view_channel=True)
+                        updated_count += 1
+                        print(f"  🔒 #{channel.name} (staff only)")
+                    except Exception as e:
+                        print(f"  ❌ Erreur #{channel.name}: {e}")
+
+    print(f"✅ {updated_count} salons configurés!\n")
+
+async def analyze_server(guild):
+    """Analyse complète du serveur et génère un rapport"""
+    print("\n" + "="*50)
+    print("📊 ANALYSE COMPLÈTE DU SERVEUR")
+    print("="*50)
+
+    print(f"\n📌 Serveur: {guild.name}")
+    print(f"👥 Membres: {guild.member_count}")
+    print(f"🎭 Rôles: {len(guild.roles) - 1}")  # Exclude @everyone
+
+    print(f"\n📂 Catégories ({len(guild.categories)}):")
+    for category in guild.categories:
+        channels = [ch.name for ch in category.channels if isinstance(ch, discord.TextChannel)]
+        print(f"  📁 {category.name}")
+        for ch in channels:
+            print(f"    ├─ #{ch}")
+
+    print(f"\n📋 Salons sans catégorie:")
+    for channel in guild.channels:
+        if isinstance(channel, discord.TextChannel) and channel.category is None:
+            print(f"  ├─ #{channel.name}")
+
+    print(f"\n🎭 Rôles ({len(guild.roles) - 1}):")
+    for role in guild.roles[1:]:
+        print(f"  ├─ {role.name}")
+
+    print(f"\n✅ Analyse terminée!")
+    print("="*50 + "\n")
 
 @bot.command(name="setup_roles_message")
 @commands.has_permissions(administrator=True)
@@ -208,5 +255,28 @@ async def live_command(interaction: discord.Interaction, titre: str = None, mess
 
     await interaction.response.send_message(embed=embed)
     print(f"🔴 Live annoncé par {interaction.user.name}!")
+
+@bot.tree.command(name="analyze", description="Analyse complète du serveur")
+@app_commands.checks.has_permissions(administrator=True)
+async def analyze_command(interaction: discord.Interaction):
+    """Analyse le serveur et affiche un rapport"""
+    await interaction.response.defer()
+
+    guild = interaction.guild
+    await analyze_server(guild)
+
+    embed = discord.Embed(
+        title="✅ Analyse terminée!",
+        description=f"Serveur: **{guild.name}**\n" +
+                   f"Membres: **{guild.member_count}**\n" +
+                   f"Rôles: **{len(guild.roles) - 1}**\n" +
+                   f"Catégories: **{len(guild.categories)}**\n" +
+                   f"Salons: **{len(guild.channels)}**",
+        color=discord.Color.green()
+    )
+
+    embed.add_field(name="📊 Voir les détails", value="Vérifie la console du bot pour le rapport complet!", inline=False)
+
+    await interaction.followup.send(embed=embed)
 
 bot.run(TOKEN)
