@@ -12,14 +12,21 @@ const Question6: React.FC<Question6Props> = ({ onAnswer, onEasterEgg }) => {
   const { playSound } = useSound()
 
   const options = [
-    { label: '🔥 "C\'est un mec chaud"', emoji: '🥵' },
-    { label: '😍 "Tu es tellement beau"', emoji: '💕' },
-    { label: '😂 "Pourquoi tu me fais ça?"', emoji: '💀' },
-    { label: '🤨 "Bro c\'est 3h du matin"', emoji: '😴' },
+    { label: '🔥 "C\'est un mec chaud"', emoji: '🥵', reaction: 'Hehe c\'est noté 😏' },
+    { label: '😍 "Tu es tellement beau"', emoji: '💕', reaction: 'Je le savais déjà 💅' },
+    { label: '😂 "Pourquoi tu me fais ça?"', emoji: '💀', reaction: 'C\'est qu\'une photo bro calme 😭' },
+    { label: '🤨 "Bro c\'est 3h du matin"', emoji: '😴', reaction: 'Tu dormais? Oups 👀' },
   ]
 
   const handleAnswer = (answer: string) => {
-    playSound('success')
+    const selectedOption = options.find(o => o.label === answer)
+    if (selectedOption?.label.includes('hot')) {
+      playSound('dab')
+    } else if (selectedOption?.label.includes('beau')) {
+      playSound('success')
+    } else {
+      playSound('bruh')
+    }
     setSelectedAnswer(answer)
     onEasterEgg()
 
@@ -88,10 +95,17 @@ const Question6: React.FC<Question6Props> = ({ onAnswer, onEasterEgg }) => {
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="card-base p-4 bg-gradient-to-r from-indigo-50 to-blue-50 text-center border-indigo-200"
+          className="card-base bg-gradient-to-br from-white/80 to-indigo-50/80 p-6 text-center border-indigo-200"
         >
-          <p className="text-gray-700 font-semibold">
-            Noté, je dois arrêter les photos à 3h du matin alors 😅
+          <motion.p
+            animate={{ scale: [1, 1.05, 1] }}
+            transition={{ duration: 0.6, repeat: Infinity }}
+            className="text-lg font-black text-gradient mb-2"
+          >
+            {options.find(o => o.label === selectedAnswer)?.reaction}
+          </motion.p>
+          <p className="text-sm text-gray-600 font-semibold">
+            Réaction enregistrée ✓
           </p>
         </motion.div>
       )}

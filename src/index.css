@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -214,6 +214,60 @@
   }
 }
 
+@keyframes float-rotate {
+  0%, 100% {
+    transform: translateY(0) rotateZ(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotateZ(5deg);
+  }
+}
+
+@keyframes aurora {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+@keyframes neon-glow {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(236, 72, 153, 0.5), 0 0 20px rgba(236, 72, 153, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(236, 72, 153, 0.8), 0 0 40px rgba(236, 72, 153, 0.6), 0 0 60px rgba(236, 72, 153, 0.4);
+  }
+}
+
+@keyframes wave {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes morph {
+  0%, 100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+  50% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+  }
+}
+
+@keyframes attract {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.05) rotate(2deg);
+  }
+}
+
 .animate-float {
   animation: float 3s ease-in-out infinite;
 }
@@ -248,4 +302,58 @@
 
 .animate-glitch {
   animation: glitch 0.4s ease-in-out;
+}
+
+.animate-float-rotate {
+  animation: float-rotate 4s ease-in-out infinite;
+}
+
+.animate-neon-glow {
+  animation: neon-glow 2s ease-in-out infinite;
+}
+
+.animate-wave {
+  animation: wave 1.5s ease-in-out infinite;
+}
+
+.animate-morph {
+  animation: morph 8s ease-in-out infinite;
+}
+
+.animate-attract {
+  animation: attract 1.2s ease-in-out infinite;
+}
+
+/* Premium gradient backgrounds */
+.gradient-aurora {
+  background: linear-gradient(135deg, #ec4899, #db2777, #be185d, #db2777, #ec4899);
+  background-size: 300% 300%;
+  animation: aurora 15s ease infinite;
+}
+
+/* Neon text effect */
+.neon-text {
+  text-shadow: 0 0 10px rgba(236, 72, 153, 0.8), 0 0 20px rgba(236, 72, 153, 0.6);
+  animation: neon-glow 2s ease-in-out infinite;
+}
+
+/* Smooth blur transition */
+.blur-transition {
+  transition: backdrop-filter 0.3s ease-out;
+}
+
+/* Premium box */
+.premium-box {
+  @apply relative overflow-hidden;
+  background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,182,193,0.4) 100%);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255,255,255,0.6);
+}
+
+.premium-box::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+  animation: wave 3s infinite;
 }

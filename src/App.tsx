@@ -3,6 +3,8 @@ import { AnimatePresence } from 'framer-motion'
 import Landing from './screens/Landing'
 import Quiz from './screens/Quiz'
 import Result from './screens/Result'
+import BackgroundElements from './components/BackgroundElements'
+import ParticleEffect from './components/ParticleEffect'
 import { useSound } from './hooks/useSound'
 
 export type Screen = 'landing' | 'quiz' | 'result'
@@ -22,6 +24,7 @@ function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('landing')
   const [answers, setAnswers] = useState<QuizAnswers>({})
   const [easterEggCount, setEasterEggCount] = useState(0)
+  const [particleTrigger, setParticleTrigger] = useState(false)
   const { playSound } = useSound()
 
   useEffect(() => {
@@ -38,6 +41,7 @@ function App() {
     playSound('success')
     setAnswers(finalAnswers)
     setCurrentScreen('result')
+    setParticleTrigger(!particleTrigger)
   }
 
   const handleRestart = () => {
@@ -48,17 +52,17 @@ function App() {
 
   const handleEasterEgg = () => {
     setEasterEggCount(prev => prev + 1)
-    playSound('ding')
+    playSound('dab')
+    setParticleTrigger(!particleTrigger)
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-white to-pink-50 overflow-hidden">
-      {/* Background decoration */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-10 right-10 w-72 h-72 bg-rose-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse-slow" />
-        <div className="absolute bottom-10 left-10 w-72 h-72 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse-slow" />
-        <div className="absolute top-1/2 left-1/3 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse-slow" />
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-white to-pink-50 overflow-hidden relative">
+      {/* Premium background elements */}
+      <BackgroundElements />
+
+      {/* Particle effects */}
+      <ParticleEffect trigger={particleTrigger} type="mixed" count={40} />
 
       {/* Main content */}
       <div className="relative z-10">
@@ -88,10 +92,10 @@ function App() {
         </AnimatePresence>
       </div>
 
-      {/* Easter egg counter (secret) */}
+      {/* Easter egg counter (secret) - enhanced */}
       {easterEggCount > 0 && (
-        <div className="fixed bottom-4 left-4 text-xs text-gray-300 pointer-events-none">
-          🥚 {easterEggCount}
+        <div className="fixed bottom-6 left-6 text-xs text-gray-400 pointer-events-none font-bold">
+          🥚 {easterEggCount} eggs found
         </div>
       )}
     </div>

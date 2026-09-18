@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Heart } from 'lucide-react'
-import LoadingSequence from '../components/LoadingSequence'
+import LoadingSequencePremium from '../components/LoadingSequencePremium'
 import { useSound } from '../hooks/useSound'
 
 interface LandingProps {
@@ -61,7 +61,7 @@ const Landing: React.FC<LandingProps> = ({ onStart, onEasterEgg }) => {
   }
 
   if (isLoading) {
-    return <LoadingSequence progress={Math.min(loadingProgress, 99)} />
+    return <LoadingSequencePremium progress={Math.min(loadingProgress, 99)} />
   }
 
   return (

@@ -18,7 +18,13 @@ const Question4: React.FC<Question4Props> = ({ onAnswer, onEasterEgg }) => {
   }
 
   const handleSubmit = () => {
-    playSound('success')
+    if (sliderValue > 80) {
+      playSound('cringe')
+    } else if (sliderValue > 60) {
+      playSound('fail')
+    } else {
+      playSound('success')
+    }
     setHasAnswered(true)
     onEasterEgg()
 
@@ -32,15 +38,17 @@ const Question4: React.FC<Question4Props> = ({ onAnswer, onEasterEgg }) => {
     if (sliderValue < 40) return '🤨'
     if (sliderValue < 60) return '😑'
     if (sliderValue < 80) return '😤'
-    return '🤬'
+    if (sliderValue < 95) return '🤬'
+    return '💀'
   }
 
   const getLabel = () => {
-    if (sliderValue < 20) return 'Presque pas insupportable'
-    if (sliderValue < 40) return 'Un peu énervant'
-    if (sliderValue < 60) return 'C\'est acceptable'
-    if (sliderValue < 80) return 'Franchement insupportable'
-    return 'ARRÊTE JE T\'AIME TROP 😭'
+    if (sliderValue < 20) return 'Vraiment chill... suspicieux 👀'
+    if (sliderValue < 40) return 'Un peu énervant mais c\'est bon'
+    if (sliderValue < 60) return 'C\'est acceptable pour un humain'
+    if (sliderValue < 80) return 'OK ça devient dangereux là ngl'
+    if (sliderValue < 95) return 'POURQUOI TU M\'AIMES AUTANT 😭😭😭'
+    return 'BRO T\'ES DANGEREUSE T\'ES OBSÉDÉE DE MOI 💀'
   }
 
   return (
@@ -60,13 +68,19 @@ const Question4: React.FC<Question4Props> = ({ onAnswer, onEasterEgg }) => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="card-base p-8 space-y-6"
+        className="card-base bg-gradient-to-br from-white/80 to-rose-50/80 p-8 space-y-6"
       >
         {/* Emoji indicator */}
         <motion.div
-          animate={{ scale: [1, 1.2, 1] }}
-          transition={{ duration: 0.5, repeat: Infinity }}
-          className="text-center text-6xl"
+          animate={{
+            scale: [1, 1.3, 1],
+            rotate: sliderValue > 80 ? [0, -5, 5, -5, 0] : 0
+          }}
+          transition={{
+            duration: sliderValue > 80 ? 0.4 : 0.5,
+            repeat: Infinity
+          }}
+          className="text-center text-7xl drop-shadow-lg"
         >
           {getEmoji()}
         </motion.div>
@@ -79,16 +93,23 @@ const Question4: React.FC<Question4Props> = ({ onAnswer, onEasterEgg }) => {
             max="100"
             value={sliderValue}
             onChange={handleSliderChange}
-            className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-rose-500"
+            className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-rose-500 shadow-md"
             style={{
-              background: `linear-gradient(to right, #fecdd3 0%, #fecdd3 ${sliderValue}%, #e5e7eb ${sliderValue}%, #e5e7eb 100%)`
+              background: `linear-gradient(to right, ${sliderValue > 80 ? '#dc2626' : sliderValue > 60 ? '#f97316' : '#ec4899'} 0%, ${sliderValue > 80 ? '#dc2626' : sliderValue > 60 ? '#f97316' : '#ec4899'} ${sliderValue}%, #e5e7eb ${sliderValue}%, #e5e7eb 100%)`
             }}
           />
 
-          <div className="flex justify-between text-xs text-gray-500 font-semibold">
-            <span>Ange</span>
-            <span>{sliderValue}</span>
-            <span>Démon</span>
+          <div className="flex justify-between text-xs text-gray-600 font-bold">
+            <span>😇 Ange</span>
+            <motion.span
+              key={sliderValue}
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 0.3 }}
+              className="text-rose-600 font-black"
+            >
+              {sliderValue}
+            </motion.span>
+            <span>Démon 😈</span>
           </div>
         </div>
 
@@ -97,7 +118,9 @@ const Question4: React.FC<Question4Props> = ({ onAnswer, onEasterEgg }) => {
           key={sliderValue}
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center text-gray-700 font-semibold"
+          className={`text-center font-bold text-lg ${
+            sliderValue > 80 ? 'text-red-600' : sliderValue > 60 ? 'text-orange-600' : 'text-gray-700'
+          }`}
         >
           {getLabel()}
         </motion.p>

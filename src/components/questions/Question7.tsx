@@ -22,7 +22,13 @@ const Question7: React.FC<Question7Props> = ({ onAnswer, onEasterEgg }) => {
   const scenario = scenarios[0]
 
   const handleAnswer = (answer: string) => {
-    playSound('success')
+    if (answer === 'Très très énervé') {
+      playSound('fail')
+    } else if (answer === 'Je m\'en fous') {
+      playSound('dab')
+    } else {
+      playSound('success')
+    }
     setSelectedAnswer(answer)
     onEasterEgg()
 
@@ -85,21 +91,32 @@ const Question7: React.FC<Question7Props> = ({ onAnswer, onEasterEgg }) => {
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="card-base p-4 bg-gradient-to-r from-red-50 to-pink-50 text-center border-red-200"
+          className={`card-base p-6 text-center border-2 ${
+            selectedAnswer === 'Très très énervé'
+              ? 'bg-gradient-to-br from-red-50 to-rose-50 border-red-300'
+              : selectedAnswer === 'Je m\'en fous'
+              ? 'bg-gradient-to-br from-green-50 to-emerald-50 border-green-300'
+              : 'bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-300'
+          }`}
         >
-          {selectedAnswer === 'Très très énervé' ? (
-            <p className="text-gray-700 font-semibold">
-              Bon je vais vraiment être vigilant sur ce coup là 😅
-            </p>
-          ) : selectedAnswer === 'Ça va' ? (
-            <p className="text-gray-700 font-semibold">
-              Au moins on est cool sur ce sujet 😎
-            </p>
-          ) : (
-            <p className="text-gray-700 font-semibold">
-              Je dois dire que c\'est cool ✨
-            </p>
-          )}
+          <motion.p
+            animate={{ scale: [1, 1.05, 1] }}
+            transition={{ duration: 0.6, repeat: Infinity }}
+            className="font-bold text-lg mb-2"
+          >
+            {selectedAnswer === 'Très très énervé' ? (
+              <span className="text-red-600">😱 OK JE NOTE! JAMAIS J\'OUBLIERAI!</span>
+            ) : selectedAnswer === 'Assez énervé' ? (
+              <span className="text-orange-600">😅 Attention noté, je vais mettre une alarme</span>
+            ) : selectedAnswer === 'Ça va' ? (
+              <span className="text-blue-600">😎 Cool, on peut chill sur ce sujet</span>
+            ) : (
+              <span className="text-green-600">💀 T\'ES DÉSINVOLTE LÀ... J\'AIME ÇA</span>
+            )}
+          </motion.p>
+          <p className="text-sm text-gray-600 font-semibold">
+            Réaction enregistrée ✓
+          </p>
         </motion.div>
       )}
     </div>
