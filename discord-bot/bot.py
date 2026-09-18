@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from discord import Intents
+from discord import Intents, app_commands
 import os
 from dotenv import load_dotenv
 import config
@@ -23,6 +23,12 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 async def on_ready():
     print(f"✅ Bot connecté en tant que {bot.user}")
     print(f"✨ Serveur: {GUILD_ID}")
+
+    try:
+        synced = await bot.tree.sync()
+        print(f"✨ {len(synced)} slash commandes synchronisées!")
+    except Exception as e:
+        print(f"❌ Erreur sync commandes: {e}")
 
     guild = bot.get_guild(GUILD_ID)
     if guild:
@@ -166,5 +172,41 @@ async def setup_roles_message(ctx):
         await msg.add_reaction(emoji)
 
     await ctx.send(f"✅ Message de rôles créé! ID: {msg.id}")
+
+@bot.tree.command(name="live", description="Annonce que tu es en live sur TikTok!")
+@app_commands.checks.has_permissions(administrator=True)
+@app_commands.describe(titre="Titre du live (défaut: 📺 JE SUIS EN LIVE!)", message="Message personnalisé")
+async def live_command(interaction: discord.Interaction, titre: str = None, message: str = None):
+    """Commande slash pour annoncer un live TikTok"""
+
+    if titre is None:
+        titre = "📺 JE SUIS EN LIVE!"
+
+    if message is None:
+        message = "Viens me rejoindre maintenant!"
+
+    embed = discord.Embed(
+        title=titre,
+        description=message,
+        color=discord.Color.from_rgb(255, 0, 127)
+    )
+
+    embed.add_field(
+        name="🎥 TikTok",
+        value="[tiktok.com/zetsuhi](https://tiktok.com/@zetsuhi)",
+        inline=False
+    )
+
+    embed.add_field(
+        name="📌 Rejoins-moi!",
+        value="Clique sur le lien pour regarder le live en direct! 🔴",
+        inline=False
+    )
+
+    embed.set_footer(text="Zetsu Live • En direct maintenant!")
+    embed.set_thumbnail(url="https://p16-sign.tiktokcdn.com/aweme/100x100/tos-useast2a-avt-0068-gltf-v2.jpeg?x-expires=1695998400&x-signature=test")
+
+    await interaction.response.send_message(embed=embed)
+    print(f"🔴 Live annoncé par {interaction.user.name}!")
 
 bot.run(TOKEN)
