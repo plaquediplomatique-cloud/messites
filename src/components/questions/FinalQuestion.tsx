@@ -92,7 +92,8 @@ const FinalQuestion: React.FC<FinalQuestionProps> = ({ onAnswer, onEasterEgg }) 
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="relative h-72 flex items-center justify-center gap-8 p-8"
+        className="flex items-center justify-center gap-6 p-8 relative"
+        style={{ minHeight: '200px' }}
       >
         {/* YES button - PROMINENT */}
         <motion.button
@@ -101,35 +102,40 @@ const FinalQuestion: React.FC<FinalQuestionProps> = ({ onAnswer, onEasterEgg }) 
           whileTap={{ scale: 0.95 }}
           animate={{ y: [0, -5, 0] }}
           transition={{ duration: 1.5, repeat: Infinity }}
-          className="btn-primary-rose text-2xl font-black px-10 py-6 shadow-2xl relative z-10"
+          className="btn-primary-rose text-2xl font-black px-10 py-6 shadow-2xl relative z-20"
         >
           ❤️ OUI
         </motion.button>
 
         {/* NO button - TRICKY & GOOFY */}
-        <motion.button
-          ref={noButtonRef}
-          onMouseEnter={handleNoHover}
-          onClick={handleNoHover}
-          animate={{
-            x: noButtonPosition.x,
-            y: noButtonPosition.y,
-            scale: Math.max(0.2, 1 - (noClickCount - 5) * 0.12),
-            rotate: noClickCount > 3 ? (Math.random() - 0.5) * 20 : 0,
-          }}
-          transition={{
-            duration: 0.25,
-            type: 'spring',
-            stiffness: 400,
-            damping: 25,
-          }}
-          className="btn-ghost text-lg font-black px-8 py-4 whitespace-nowrap absolute hover:bg-red-100"
-          style={{
-            opacity: noClickCount > 8 ? 0.6 : 1,
-          }}
+        <motion.div
+          className="relative"
+          style={{ width: '120px', height: '60px' }}
         >
-          ❌ {noButtonText}
-        </motion.button>
+          <motion.button
+            ref={noButtonRef}
+            onMouseEnter={handleNoHover}
+            onClick={handleNoHover}
+            animate={{
+              x: noButtonPosition.x,
+              y: noButtonPosition.y,
+              scale: Math.max(0.2, 1 - (noClickCount - 5) * 0.12),
+              rotate: noClickCount > 3 ? (Math.random() - 0.5) * 20 : 0,
+            }}
+            transition={{
+              duration: 0.25,
+              type: 'spring',
+              stiffness: 400,
+              damping: 25,
+            }}
+            className="btn-ghost text-lg font-black px-8 py-4 whitespace-nowrap hover:bg-red-100 absolute left-0 top-0"
+            style={{
+              opacity: noClickCount > 8 ? 0.6 : 1,
+            }}
+          >
+            ❌ {noButtonText}
+          </motion.button>
+        </motion.div>
       </motion.div>
 
       {/* Messages based on click count */}
