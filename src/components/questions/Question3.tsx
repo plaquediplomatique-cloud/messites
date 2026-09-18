@@ -48,7 +48,7 @@ const Question3: React.FC<Question3Props> = ({ onAnswer, onEasterEgg }) => {
           transition={{ duration: 2, repeat: Infinity }}
           className="text-4xl font-black text-gradient mb-2"
         >
-          Qui a raison dans une dispute ? ⚔️
+          Qui a raison dans une dispute ? <span className="emoji-safe">⚔️</span>
         </motion.p>
         <p className="text-sm text-gray-500 mt-2 italic">Réponds honnêtement... (ou pas 😏)</p>
       </motion.div>

@@ -66,7 +66,7 @@ const Question2: React.FC<Question2Props> = ({ onAnswer, onEasterEgg }) => {
           transition={{ duration: 2, repeat: Infinity }}
           className="text-4xl font-black text-gradient mb-2"
         >
-          Est-ce que je suis le plus beau mec que tu connaisses ? ✨
+          Est-ce que je suis le plus beau mec que tu connaisses ? <span className="emoji-safe">✨</span>
         </motion.p>
         <p className="text-sm text-gray-500 mt-2 italic">Pas de mensonges hein 👀</p>
       </motion.div>

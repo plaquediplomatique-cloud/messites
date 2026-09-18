@@ -20,7 +20,7 @@ const Question6: React.FC<Question6Props> = ({ onAnswer, onEasterEgg }) => {
 
   const handleAnswer = (answer: string) => {
     const selectedOption = options.find(o => o.label === answer)
-    if (selectedOption?.label.includes('hot')) {
+    if (selectedOption?.label.includes('chaud')) {
       playSound('dab')
     } else if (selectedOption?.label.includes('beau')) {
       playSound('success')
@@ -100,7 +100,7 @@ const Question6: React.FC<Question6Props> = ({ onAnswer, onEasterEgg }) => {
           <motion.p
             animate={{ scale: [1, 1.05, 1] }}
             transition={{ duration: 0.6, repeat: Infinity }}
-            className="text-lg font-black text-gradient mb-2"
+            className="text-lg font-black text-rose-600 mb-2"
           >
             {options.find(o => o.label === selectedAnswer)?.reaction}
           </motion.p>

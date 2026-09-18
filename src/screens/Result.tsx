@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Heart, Sparkles, Award } from 'lucide-react'
+import { Heart, Sparkles } from 'lucide-react'
 import { QuizAnswers } from '../App'
 import { triggerConfetti, triggerHeartConfetti } from '../utils/confetti'
 import { useSound } from '../hooks/useSound'
@@ -52,6 +52,7 @@ const Result: React.FC<ResultProps> = ({ onRestart, onEasterEgg }) => {
   if (phase === 'celebration') {
     return (
       <motion.div
+        key="celebration"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="min-h-screen flex items-center justify-center px-4"
@@ -70,7 +71,7 @@ const Result: React.FC<ResultProps> = ({ onRestart, onEasterEgg }) => {
             transition={{ duration: 1 }}
             className="text-6xl md:text-7xl font-black text-gradient mb-4"
           >
-            JE LE SAVAIS ❤️
+            JE LE SAVAIS <span className="emoji-safe">❤️</span>
           </motion.h1>
 
           <motion.p
@@ -86,84 +87,141 @@ const Result: React.FC<ResultProps> = ({ onRestart, onEasterEgg }) => {
   }
 
   if (phase === 'contract') {
+    const today = new Date().toLocaleDateString('fr-FR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+    const refNumber = `N° ${new Date().getFullYear()}-LOVE-∞`
+
+    const articles = [
+      {
+        title: 'Article 1 — Durée',
+        body: "Le présent contrat est conclu pour une durée indéterminée, soit jusqu'à la fin des temps, sans possibilité de préavis.",
+      },
+      {
+        title: 'Article 2 — Résiliation',
+        body: "Toute tentative de résiliation, de quelque nature que ce soit, sera automatiquement et unilatéralement rejetée par la Partie 2.",
+      },
+      {
+        title: 'Article 3 — Support technique',
+        body: 'Un support technique est assuré 24h/24 et 7j/7 par la Partie 2, sans surcoût, câlins compris.',
+      },
+      {
+        title: 'Article 4 — Livraison de bisous',
+        body: 'La Partie 2 s\'engage à livrer une quantité illimitée de bisous, sur simple demande verbale ou regard insistant.',
+      },
+      {
+        title: 'Article 5 — Règlement des différends',
+        body: "Tout différend entre les parties sera réglé à l'amiable, de préférence autour d'une pizza.",
+      },
+      {
+        title: 'Article 6 — Clause de fierté',
+        body: 'La Partie 2 se réserve le droit de dire "je le savais" à volonté, sans justification requise.',
+      },
+    ]
+
     return (
       <motion.div
+        key="contract"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="min-h-screen flex items-center justify-center px-4 py-8"
+        className="min-h-screen flex items-center justify-center px-4 py-10"
       >
-        <div className="w-full max-w-2xl">
-          {/* Main message */}
+        <motion.div
+          variants={itemVariants}
+          className="contract-paper relative w-full max-w-2xl p-6 sm:p-12 rounded-sm overflow-hidden"
+        >
+          {/* Official stamp */}
           <motion.div
-            variants={itemVariants}
-            className="card-base p-8 mb-8 text-center"
+            initial={{ opacity: 0, scale: 1.6, rotate: 8 }}
+            animate={{ opacity: 0.85, scale: 1, rotate: -12 }}
+            transition={{ delay: 0.6, duration: 0.5, ease: 'easeOut' }}
+            className="contract-stamp absolute top-20 sm:top-24 right-4 sm:right-10 px-4 py-2 text-sm sm:text-base font-black tracking-widest uppercase pointer-events-none select-none"
           >
-            <motion.div
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="mb-6"
-            >
-              <Award className="w-12 h-12 text-rose-500 mx-auto" />
-            </motion.div>
-
-            <h2 className="text-3xl font-black text-gray-800 mb-4">
-              Contrat Officiel ⚖️
-            </h2>
-
-            <p className="text-gray-700 font-semibold text-lg mb-2">
-              Félicitations, tu viens officiellement de renouveler ton abonnement à moi
-            </p>
-
-            <p className="text-gray-600 text-sm">
-              pour une durée indéterminée.
-            </p>
+            Approuvé ❤️
           </motion.div>
 
-          {/* Contract details */}
-          <motion.div
-            variants={containerVariants}
-            className="space-y-3 mb-8"
-          >
-            {[
-              { label: 'Durée du contrat', value: '♾️ (infini)' },
-              { label: 'Résiliation', value: '❌ Impossible' },
-              { label: 'Support client', value: '🤕 Moi' },
-              { label: 'Bisous inclus', value: '💋 Illimités' },
-              { label: 'Câlins inclus', value: '🤗 À la demande' },
-              { label: 'Disputes autorisées', value: '✅ Oui (avec résolution garantie)' },
-            ].map((item, index) => (
+          {/* Letterhead */}
+          <div className="text-center border-b-2 border-rose-800/20 pb-6 mb-6">
+            <p className="uppercase tracking-[0.3em] text-[10px] sm:text-xs text-rose-800/60 font-bold mb-2">
+              Tribunal Suprême de l'Amour
+            </p>
+            <h2 className="text-2xl sm:text-4xl font-black text-gray-900 leading-tight">
+              Contrat d'Engagement Amoureux
+            </h2>
+            <p className="text-xs sm:text-sm text-gray-500 mt-2 italic">{refNumber}</p>
+          </div>
+
+          {/* Preamble */}
+          <p className="text-gray-700 text-sm sm:text-base leading-relaxed mb-6 text-justify">
+            Entre les soussignés, ci-après désignés « la Partie 1 » (Toi) et « la Partie 2 » (Moi),
+            il a été établi et convenu ce qui suit, en pleine conscience et sans contrainte
+            (si ce n'est celle de l'amour) :
+          </p>
+
+          {/* Articles */}
+          <div className="space-y-4 mb-8">
+            {articles.map((article, index) => (
               <motion.div
-                key={index}
+                key={article.title}
                 variants={itemVariants}
-                className="card-base p-4 flex items-center justify-between hover:bg-rose-50 transition-colors"
+                custom={index}
               >
-                <span className="font-semibold text-gray-700">{item.label}</span>
-                <span className="font-bold text-gradient">{item.value}</span>
+                <h3 className="font-bold text-gray-900 text-sm sm:text-base mb-1">
+                  {article.title}
+                </h3>
+                <p className="text-gray-600 text-xs sm:text-sm leading-relaxed pl-4 border-l-2 border-rose-200">
+                  {article.body}
+                </p>
               </motion.div>
             ))}
+          </div>
+
+          {/* Signatures */}
+          <motion.div
+            variants={itemVariants}
+            className="grid grid-cols-2 gap-6 sm:gap-10 pt-6 border-t-2 border-rose-800/20"
+          >
+            <div className="text-center">
+              <p className="contract-signature text-3xl sm:text-4xl text-rose-700 mb-1">
+                Toi 💕
+              </p>
+              <div className="border-t border-gray-400 pt-1">
+                <p className="text-[10px] sm:text-xs text-gray-500 uppercase tracking-wide">
+                  Partie 1
+                </p>
+              </div>
+            </div>
+            <div className="text-center">
+              <p className="contract-signature text-3xl sm:text-4xl text-rose-700 mb-1">
+                Moi ❤️
+              </p>
+              <div className="border-t border-gray-400 pt-1">
+                <p className="text-[10px] sm:text-xs text-gray-500 uppercase tracking-wide">
+                  Partie 2
+                </p>
+              </div>
+            </div>
           </motion.div>
 
           {/* Footer */}
-          <motion.div
+          <motion.p
             variants={itemVariants}
-            className="card-base p-6 bg-gradient-to-r from-rose-50 to-pink-50"
+            className="text-center text-[10px] sm:text-xs text-gray-400 mt-8 italic"
           >
-            <p className="text-center text-sm text-gray-600">
-              Signé électroniquement le {new Date().toLocaleDateString('fr-FR', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}
-            </p>
-          </motion.div>
-        </div>
+            Signé électroniquement le {today} · Document non contraignant juridiquement,
+            mais absolument contraignant émotionnellement.
+          </motion.p>
+        </motion.div>
       </motion.div>
     )
   }
 
   return (
     <motion.div
+      key="personal"
       variants={containerVariants}
       initial="hidden"
       animate="visible"

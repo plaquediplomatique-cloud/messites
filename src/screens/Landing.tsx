@@ -87,7 +87,7 @@ const Landing: React.FC<LandingProps> = ({ onStart, onEasterEgg }) => {
             transition={{ duration: 2, repeat: Infinity }}
             className="text-5xl md:text-6xl font-black text-gradient leading-tight"
           >
-            Bienvenue ❤️
+            Bienvenue <span className="emoji-safe">❤️</span>
           </motion.h1>
 
           <motion.div

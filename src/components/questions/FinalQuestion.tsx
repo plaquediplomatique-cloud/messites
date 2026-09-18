@@ -24,12 +24,15 @@ const noTexts = [
   'Je vais mourir',
 ]
 
+const ARENA_WIDTH = 320
+const ARENA_HEIGHT = 180
+
 const FinalQuestion: React.FC<FinalQuestionProps> = ({ onAnswer, onEasterEgg }) => {
   const [noButtonPosition, setNoButtonPosition] = useState({ x: 0, y: 0 })
   const [noClickCount, setNoClickCount] = useState(0)
   const [noButtonText, setNoButtonText] = useState('NON')
   const noButtonRef = useRef<HTMLButtonElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
+  const arenaRef = useRef<HTMLDivElement>(null)
   const { playSound } = useSound()
 
   const handleYesClick = () => {
@@ -42,27 +45,22 @@ const FinalQuestion: React.FC<FinalQuestionProps> = ({ onAnswer, onEasterEgg }) 
   const handleNoHover = () => {
     playSound('fart')
 
+    // Movement is always confined to a fixed-size arena, never to the
+    // full page (which grows as messages appear below), so the button
+    // can never escape the visible play area.
+    const arenaWidth = arenaRef.current?.clientWidth ?? ARENA_WIDTH
+    const arenaHeight = arenaRef.current?.clientHeight ?? ARENA_HEIGHT
+    const maxX = arenaWidth / 2 - 70
+    const maxY = arenaHeight / 2 - 40
+
     if (noClickCount < 2) {
-      const moveX = (Math.random() - 0.5) * 60
-      const moveY = (Math.random() - 0.5) * 40
+      const moveX = (Math.random() - 0.5) * Math.min(80, maxX * 2)
+      const moveY = (Math.random() - 0.5) * Math.min(60, maxY * 2)
       setNoButtonPosition({ x: moveX, y: moveY })
-    } else if (noClickCount < 5) {
-      const angle = Math.random() * Math.PI * 2
-      const distance = 80 + Math.random() * 120
-      setNoButtonPosition({
-        x: Math.cos(angle) * distance,
-        y: Math.sin(angle) * distance,
-      })
     } else {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect()
-        const randomX = Math.random() * (rect.width - 80)
-        const randomY = Math.random() * (rect.height - 80)
-        setNoButtonPosition({
-          x: randomX - rect.width / 2,
-          y: randomY - rect.height / 2,
-        })
-      }
+      const moveX = (Math.random() - 0.5) * 2 * maxX
+      const moveY = (Math.random() - 0.5) * 2 * maxY
+      setNoButtonPosition({ x: moveX, y: moveY })
     }
 
     setNoClickCount(prev => prev + 1)
@@ -71,8 +69,10 @@ const FinalQuestion: React.FC<FinalQuestionProps> = ({ onAnswer, onEasterEgg }) 
     }
   }
 
+  const noButtonScale = noClickCount <= 5 ? 1 : Math.max(0.35, 1 - (noClickCount - 5) * 0.1)
+
   return (
-    <div ref={containerRef} className="space-y-8">
+    <div className="space-y-8">
       {/* Question */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
@@ -82,59 +82,61 @@ const FinalQuestion: React.FC<FinalQuestionProps> = ({ onAnswer, onEasterEgg }) 
         <motion.p
           animate={{ scale: [1, 1.05, 1] }}
           transition={{ duration: 1.5, repeat: Infinity }}
-          className="text-5xl font-black text-gradient"
+          className="text-4xl sm:text-5xl font-black text-gradient"
         >
-          Voulez-vous être ma copine à vie ? 💍
+          Voulez-vous être ma copine à vie ? <span className="emoji-safe">💍</span>
         </motion.p>
       </motion.div>
 
-      {/* Buttons container */}
+      {/* Buttons arena — fixed size so the NO button can never fly off past this box */}
       <motion.div
+        ref={arenaRef}
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="flex items-center justify-center gap-6 p-8 relative"
-        style={{ minHeight: '200px' }}
+        className="relative w-full mx-auto flex items-center justify-center gap-6 card-base bg-white/40"
+        style={{ maxWidth: `${ARENA_WIDTH}px`, height: `${ARENA_HEIGHT}px` }}
       >
         {/* YES button - PROMINENT */}
         <motion.button
           onClick={handleYesClick}
-          whileHover={{ scale: 1.15, y: -8 }}
+          whileHover={{ scale: 1.1, y: -4 }}
           whileTap={{ scale: 0.95 }}
-          animate={{ y: [0, -5, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-          className="btn-primary-rose text-2xl font-black px-10 py-6 shadow-2xl relative z-20"
+          animate={{
+            boxShadow: [
+              '0 20px 40px rgba(236, 72, 153, 0.3)',
+              '0 20px 45px rgba(236, 72, 153, 0.55)',
+              '0 20px 40px rgba(236, 72, 153, 0.3)',
+            ],
+          }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="btn-primary-rose text-xl font-black px-8 py-5 relative z-20"
         >
           ❤️ OUI
         </motion.button>
 
-        {/* NO button - TRICKY & GOOFY */}
-        <motion.div
-          className="relative"
-          style={{ width: '120px', height: '60px' }}
+        {/* NO button - TRICKY & GOOFY, confined to the arena above */}
+        <motion.button
+          ref={noButtonRef}
+          onMouseEnter={handleNoHover}
+          onClick={handleNoHover}
+          animate={{
+            x: noButtonPosition.x,
+            y: noButtonPosition.y,
+            scale: noButtonScale,
+          }}
+          transition={{
+            duration: 0.25,
+            type: 'spring',
+            stiffness: 400,
+            damping: 25,
+          }}
+          className="btn-ghost text-base font-black px-6 py-3 whitespace-nowrap hover:bg-red-100 relative z-10"
+          style={{
+            opacity: noClickCount > 8 ? 0.6 : 1,
+          }}
         >
-          <motion.button
-            ref={noButtonRef}
-            onMouseEnter={handleNoHover}
-            onClick={handleNoHover}
-            animate={{
-              x: noButtonPosition.x,
-              y: noButtonPosition.y,
-              scale: Math.max(0.2, 1 - (noClickCount - 5) * 0.12),
-            }}
-            transition={{
-              duration: 0.25,
-              type: 'spring',
-              stiffness: 400,
-              damping: 25,
-            }}
-            className="btn-ghost text-lg font-black px-8 py-4 whitespace-nowrap hover:bg-red-100 absolute left-0 top-0"
-            style={{
-              opacity: noClickCount > 8 ? 0.6 : 1,
-            }}
-          >
-            ❌ {noButtonText}
-          </motion.button>
-        </motion.div>
+          ❌ {noButtonText}
+        </motion.button>
       </motion.div>
 
       {/* Messages based on click count */}

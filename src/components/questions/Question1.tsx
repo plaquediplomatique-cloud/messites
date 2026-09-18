@@ -55,7 +55,7 @@ const Question1: React.FC<Question1Props> = ({ onAnswer, onEasterEgg }) => {
           transition={{ duration: 1, repeat: Infinity }}
           className="text-4xl font-black text-gradient mb-2"
         >
-          Sur 20, combien me notes-tu ? 😏
+          Sur 20, combien me notes-tu ? <span className="emoji-safe">😏</span>
         </motion.p>
         <p className="text-sm text-gray-500 mt-2 italic">
           Choisis bien... je regarde 👀
