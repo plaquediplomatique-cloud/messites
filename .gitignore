@@ -16,6 +16,7 @@ dist-ssr
 # Build output
 build/
 .cache/
+src/**/*.js
 
 # Environment
 .env
