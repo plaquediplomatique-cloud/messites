@@ -1,0 +1,16 @@
+api-key-validators/**/list.txt
+api-key-validators/**/results.txt
+api-key-validators/**/.env
+*.pyc
+__pycache__/
+.env
+.env.local
+venv/
+
+# API Key Validators - Protection
+api-key-validators/**/keys/
+api-key-validators/**/*.txt
+api-key-validators/validation_results/
+api-key-validators/example_keys/
+api-key-validators/**/__pycache__/
+api-key-validators/**/*.pyc
