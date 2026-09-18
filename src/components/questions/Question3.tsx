@@ -7,27 +7,23 @@ interface Question3Props {
   onEasterEgg: () => void
 }
 
+const reactions = {
+  Moi: { text: 'Au moins t\'es honnête 😂', emoji: '🤡', sound: 'fart' },
+  Toi: { text: 'Les femmes sages... 👑', emoji: '👸', sound: 'dab' },
+  'Ça dépend': { text: 'Réponse de sage 🧠', emoji: '🤓', sound: 'ding' },
+  'Le gouvernement': { text: 'QUOI?????? 💀', emoji: '🤪', sound: 'bruh' },
+}
+
 const Question3: React.FC<Question3Props> = ({ onAnswer, onEasterEgg }) => {
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
   const [showReaction, setShowReaction] = useState(false)
   const { playSound } = useSound()
 
-  const options = [
-    { label: 'Moi', emoji: '🤴' },
-    { label: 'Toi', emoji: '👑' },
-    { label: 'Ça dépend', emoji: '🤔' },
-    { label: 'Le gouvernement', emoji: '🏛️' },
-  ]
-
-  const reactions = {
-    'Moi': 'Narcissisme confirmé 😂',
-    'Toi': 'Au moins tu es honnête 👏',
-    'Ça dépend': 'La réponse de quelqu\'un de sage 🧠',
-    'Le gouvernement': 'Bro... 💀',
-  }
+  const options = Object.keys(reactions)
 
   const handleAnswer = (answer: string) => {
-    playSound('success')
+    const reaction = reactions[answer as keyof typeof reactions]
+    playSound(reaction.sound as any)
     setSelectedAnswer(answer)
     setShowReaction(true)
     onEasterEgg()
@@ -37,17 +33,24 @@ const Question3: React.FC<Question3Props> = ({ onAnswer, onEasterEgg }) => {
     }, 1500)
   }
 
+  const selectedReaction = selectedAnswer ? reactions[selectedAnswer as keyof typeof reactions] : null
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Question */}
       <motion.div
-        initial={{ opacity: 0, y: -10 }}
+        initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="card-base p-6 text-center"
+        className="card-premium p-8 text-center border-3 border-orange-200"
       >
-        <p className="text-2xl font-black text-gray-800">
+        <motion.p
+          animate={{ rotate: [0, -2, 2, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="text-4xl font-black text-gradient mb-2"
+        >
           Qui a raison dans une dispute ? ⚔️
-        </p>
+        </motion.p>
+        <p className="text-sm text-gray-500 mt-2 italic">Réponds honnêtement... (ou pas 😏)</p>
       </motion.div>
 
       {/* Options */}
@@ -57,41 +60,60 @@ const Question3: React.FC<Question3Props> = ({ onAnswer, onEasterEgg }) => {
         animate={{ opacity: 1 }}
         transition={{ staggerChildren: 0.1 }}
       >
-        {options.map((option, index) => (
-          <motion.button
-            key={option.label}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.1 }}
-            whileHover={{ scale: 1.05, x: -8 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => handleAnswer(option.label)}
-            className={`w-full p-4 rounded-2xl font-bold text-lg transition-all ${
-              selectedAnswer === option.label
-                ? 'bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-lg'
-                : 'bg-white border-2 border-gray-200 text-gray-800 hover:border-rose-300 hover:bg-rose-50'
-            }`}
-          >
-            <span className="mr-3">{option.emoji}</span>
-            {option.label}
-          </motion.button>
-        ))}
+        {options.map((option, index) => {
+          const isSelected = selectedAnswer === option
+          return (
+            <motion.button
+              key={option}
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ scale: 1.05, x: 10 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => handleAnswer(option)}
+              className={`w-full p-5 rounded-2xl font-bold text-lg transition-all ${
+                isSelected
+                  ? 'bg-gradient-to-r from-orange-500 to-yellow-500 text-white shadow-2xl scale-105'
+                  : 'bg-white border-3 border-gray-300 text-gray-800 hover:border-orange-400 hover:shadow-xl shadow-md'
+              }`}
+            >
+              <motion.span
+                animate={isSelected ? { rotate: 360 } : {}}
+                transition={{ duration: 0.5 }}
+                className="inline-block mr-3"
+              >
+                {option === 'Moi' && '🤴'}
+                {option === 'Toi' && '👑'}
+                {option === 'Ça dépend' && '🤔'}
+                {option === 'Le gouvernement' && '🏛️'}
+              </motion.span>
+              {option}
+            </motion.button>
+          )
+        })}
       </motion.div>
 
       {/* Reaction */}
-      {showReaction && selectedAnswer && (
+      {showReaction && selectedReaction && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+          initial={{ opacity: 0, scale: 0.3, rotate: -45 }}
           animate={{ opacity: 1, scale: 1, rotate: 0 }}
-          transition={{ type: 'spring', stiffness: 200 }}
-          className="card-base p-4 bg-gradient-to-r from-yellow-50 to-orange-50 text-center"
+          transition={{ type: 'spring', stiffness: 150 }}
+          className="card-premium p-8 bg-gradient-to-br from-yellow-100 via-orange-100 to-red-100 text-center border-3 border-orange-400 shadow-2xl"
         >
           <motion.p
-            animate={{ y: [0, -5, 0] }}
-            transition={{ duration: 1, repeat: Infinity }}
-            className="text-gray-700 font-semibold"
+            animate={{ y: [0, -10, 0] }}
+            transition={{ duration: 0.5, repeat: Infinity }}
+            className="text-5xl mb-3"
           >
-            {reactions[selectedAnswer as keyof typeof reactions]}
+            {selectedReaction.emoji}
+          </motion.p>
+          <motion.p
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ duration: 0.8, repeat: Infinity }}
+            className="text-2xl font-black text-gray-800"
+          >
+            {selectedReaction.text}
           </motion.p>
         </motion.div>
       )}
