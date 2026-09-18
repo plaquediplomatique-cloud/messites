@@ -76,10 +76,10 @@ const Landing: React.FC<LandingProps> = ({ onStart, onEasterEgg }) => {
         <motion.div variants={itemVariants} className="text-center mb-12 space-y-6">
           <motion.div
             className="inline-block"
-            animate={{ rotate: [0, -8, 8, -8, 0], scale: [1, 1.1, 1] }}
-            transition={{ duration: 2.5, repeat: Infinity }}
+            animate={{ rotate: [0, -6, 6, -3, 0], scale: [1, 1.08, 1] }}
+            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
           >
-            <Heart className="w-24 h-24 text-rose-500 fill-current drop-shadow-2xl" />
+            <Heart className="w-24 h-24 text-rose-500 fill-current drop-shadow-2xl filter" />
           </motion.div>
 
           <motion.h1

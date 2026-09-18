@@ -30,9 +30,14 @@
 
 @layer components {
   .btn-primary {
-    @apply px-8 py-4 rounded-2xl font-bold text-white transition-all duration-300 active:scale-95 hover:scale-110 shadow-2xl hover:shadow-2xl relative overflow-hidden cursor-pointer;
+    @apply px-8 py-4 rounded-2xl font-bold text-white transition-all duration-300 active:scale-95 shadow-2xl relative overflow-hidden cursor-pointer;
     background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
     box-shadow: 0 20px 40px rgba(236, 72, 153, 0.3);
+  }
+
+  .btn-primary:hover {
+    @apply scale-105;
+    box-shadow: 0 25px 50px rgba(236, 72, 153, 0.4);
   }
 
   .btn-primary::before {
@@ -55,7 +60,11 @@
   }
 
   .btn-ghost {
-    @apply px-6 py-3 rounded-full font-bold text-gray-700 transition-all duration-200 hover:bg-gray-100 active:scale-95 backdrop-blur-sm;
+    @apply px-6 py-3 rounded-full font-bold text-gray-700 transition-all duration-200 active:scale-95 backdrop-blur-sm border border-gray-200;
+  }
+
+  .btn-ghost:hover {
+    @apply bg-gray-50 border-gray-300;
   }
 
   .glass {
@@ -63,7 +72,13 @@
   }
 
   .card-base {
-    @apply bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/60;
+    @apply bg-white/85 backdrop-blur-xl rounded-3xl border border-white/70 transition-all duration-300;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08), 0 0 1px rgba(0, 0, 0, 0.15);
+  }
+
+  .card-base:hover {
+    @apply bg-white/90;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.12), 0 0 1px rgba(0, 0, 0, 0.15);
   }
 
   .card-premium {
@@ -100,7 +115,18 @@
     transform: translateY(0px);
   }
   50% {
-    transform: translateY(-15px);
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -322,6 +348,17 @@
 
 .animate-attract {
   animation: attract 1.2s ease-in-out infinite;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out;
+}
+
+/* Enhanced transitions */
+@media (prefers-reduced-motion: no-preference) {
+  * {
+    scroll-behavior: smooth;
+  }
 }
 
 /* Premium gradient backgrounds */

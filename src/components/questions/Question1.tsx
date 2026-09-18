@@ -77,10 +77,10 @@ const Question1: React.FC<Question1Props> = ({ onAnswer, onEasterEgg }) => {
 
       {/* Rating buttons grid - Premium style */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ staggerChildren: 0.03, delayChildren: 0.1 }}
-        className="grid grid-cols-5 gap-3 p-6 card-base bg-gradient-to-br from-white/50 to-rose-50/30"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ staggerChildren: 0.02, delayChildren: 0.1 }}
+        className="grid grid-cols-5 gap-3 p-6 card-premium"
       >
         {ratings.map((rating, index) => (
           <motion.button
