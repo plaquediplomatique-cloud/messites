@@ -34,7 +34,8 @@ const Quiz: React.FC<QuizProps> = ({ onComplete, onEasterEgg }) => {
 
   const handleAnswer = (answer: any) => {
     playSound('success')
-    setAnswers(prev => ({ ...prev, [questions[currentQuestion].id]: answer }))
+    const updatedAnswers = { ...answers, [questions[currentQuestion].id]: answer }
+    setAnswers(updatedAnswers)
 
     if (currentQuestion < questions.length - 1) {
       setTimeout(() => {
@@ -42,7 +43,7 @@ const Quiz: React.FC<QuizProps> = ({ onComplete, onEasterEgg }) => {
       }, 300)
     } else {
       setTimeout(() => {
-        onComplete(answers)
+        onComplete(updatedAnswers)
       }, 300)
     }
   }

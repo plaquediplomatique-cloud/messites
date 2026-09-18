@@ -35,28 +35,34 @@ const BackgroundElements: React.FC = () => {
       />
 
       {/* Floating stars */}
-      {[...Array(15)].map((_, i) => (
-        <motion.div
-          key={`star-${i}`}
-          className="absolute text-3xl"
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}
-          animate={{
-            y: [0, -30, 0],
-            opacity: [0, 0.7, 0],
-            scale: [0.5, 1.2, 0.5],
-          }}
-          transition={{
-            duration: Math.random() * 3 + 2,
-            repeat: Infinity,
-            delay: Math.random() * 5,
-          }}
-        >
-          ✨
-        </motion.div>
-      ))}
+      {[...Array(12)].map((_, i) => {
+        const randomLeft = Math.random() * 100
+        const randomTop = Math.random() * 100
+        const randomDuration = Math.random() * 3 + 2
+        const randomDelay = Math.random() * 5
+        return (
+          <motion.div
+            key={`star-${i}`}
+            className="absolute text-2xl"
+            style={{
+              left: `${randomLeft}%`,
+              top: `${randomTop}%`,
+            }}
+            animate={{
+              y: [0, -20, 0],
+              opacity: [0, 0.6, 0],
+              scale: [0.4, 1, 0.4],
+            }}
+            transition={{
+              duration: randomDuration,
+              repeat: Infinity,
+              delay: randomDelay,
+            }}
+          >
+            ✨
+          </motion.div>
+        )
+      })}
 
       {/* Grid pattern - subtle */}
       <div

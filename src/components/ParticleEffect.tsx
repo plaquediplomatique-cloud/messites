@@ -61,22 +61,25 @@ const ParticleEffect: React.FC<ParticleEffectProps> = ({
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-      particlesRef.current.forEach((particle, index) => {
+      for (let i = particlesRef.current.length - 1; i >= 0; i--) {
+        const particle = particlesRef.current[i]
         particle.y += particle.vy
         particle.x += particle.vx
         particle.vy += 0.1 // gravity
         particle.opacity -= 0.005
 
         if (particle.opacity <= 0) {
-          particlesRef.current.splice(index, 1)
+          particlesRef.current.splice(i, 1)
         } else {
           ctx.globalAlpha = particle.opacity
           drawParticle(ctx, particle)
         }
-      })
+      }
 
       if (particlesRef.current.length > 0) {
         animationRef.current = requestAnimationFrame(animate)
+      } else {
+        ctx.globalAlpha = 1
       }
     }
 

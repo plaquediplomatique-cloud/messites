@@ -1,11 +1,26 @@
+let audioContext: AudioContext | null = null
+
+const getAudioContext = (): AudioContext | null => {
+  if (typeof window === 'undefined') return null
+  if (!audioContext) {
+    try {
+      audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+    } catch {
+      return null
+    }
+  }
+  return audioContext
+}
+
 export const useSound = () => {
   const playSound = (
     type: 'click' | 'success' | 'error' | 'ding' | 'ambient' | 'fart' | 'dab' | 'bruh' | 'fail' | 'cringe'
   ) => {
-    if (typeof window === 'undefined') return
+    const context = getAudioContext()
+    if (!context) return
 
     try {
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+      const audioContext = context
       const now = audioContext.currentTime
 
       switch (type) {

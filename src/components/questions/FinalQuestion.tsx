@@ -120,7 +120,6 @@ const FinalQuestion: React.FC<FinalQuestionProps> = ({ onAnswer, onEasterEgg }) 
               x: noButtonPosition.x,
               y: noButtonPosition.y,
               scale: Math.max(0.2, 1 - (noClickCount - 5) * 0.12),
-              rotate: noClickCount > 3 ? (Math.random() - 0.5) * 20 : 0,
             }}
             transition={{
               duration: 0.25,

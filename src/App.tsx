@@ -28,9 +28,8 @@ function App() {
   const { playSound } = useSound()
 
   useEffect(() => {
-    // Add subtle background music or audio cues
     playSound('ambient')
-  }, [])
+  }, [playSound])
 
   const handleStartQuiz = () => {
     playSound('click')

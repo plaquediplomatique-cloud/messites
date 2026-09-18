@@ -27,7 +27,7 @@ const Result: React.FC<ResultProps> = ({ onRestart, onEasterEgg }) => {
       clearTimeout(timer1)
       clearTimeout(timer2)
     }
-  }, [])
+  }, [playSound])
 
   const containerVariants = {
     hidden: { opacity: 0 },
