@@ -25,7 +25,8 @@ func main() {
 	var (
 		categoriesFlag = flag.String("categories", "", "comma-separated category names (default: all). Use -list to see them")
 		tldsFlag       = flag.String("tlds", "com,net,org,io,co", "comma-separated TLDs to check (without dots)")
-		outPath        = flag.String("out", "domains.csv", "output CSV file path")
+		outPath        = flag.String("out", "domains.csv", "full-detail output CSV file path (domain,status,source)")
+		listOutPath    = flag.String("list-out", "result/list.txt", "plain-text output: one AVAILABLE domain name per line")
 		workers        = flag.Int("workers", 40, "number of concurrent RDAP checks")
 		timeout        = flag.Duration("timeout", 8*time.Second, "per-request timeout")
 		limit          = flag.Int("limit", 0, "max number of domains to check (0 = no limit)")
@@ -97,6 +98,12 @@ func main() {
 	}
 	defer w.Close()
 
+	listW, err := output.NewList(*listOutPath)
+	if err != nil {
+		log.Fatalf("cannot open list output file: %v", err)
+	}
+	defer listW.Close()
+
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer cancel()
 
@@ -121,6 +128,9 @@ func main() {
 		case checker.Available:
 			atomic.AddInt64(&available, 1)
 			fmt.Printf("\033[32m%-40s AVAILABLE\033[0m\n", r.Domain)
+			if err := listW.WriteDomain(r.Domain); err != nil {
+				log.Printf("list write error: %v", err)
+			}
 		case checker.Registered:
 			atomic.AddInt64(&registered, 1)
 			if !*onlyAvailable {
@@ -139,6 +149,6 @@ func main() {
 
 	elapsed := time.Since(start)
 	fmt.Fprintf(os.Stderr,
-		"\ndone in %s | checked=%d available=%d registered=%d failed=%d | results saved to %s\n",
-		elapsed.Round(time.Second), total, available, registered, failed, *outPath)
+		"\ndone in %s | checked=%d available=%d registered=%d failed=%d | full results: %s | available domains: %s\n",
+		elapsed.Round(time.Second), total, available, registered, failed, *outPath, *listOutPath)
 }
