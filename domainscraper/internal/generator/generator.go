@@ -3,10 +3,22 @@
 package generator
 
 import (
+	"regexp"
 	"strings"
 
 	"domainscraper/internal/keywords"
 )
+
+// labelRE enforces RFC 1035 hostname-label rules: lowercase letters,
+// digits and hyphens, 1-63 chars, no leading/trailing hyphen. Any
+// generated candidate that fails this is dropped rather than sent
+// anywhere, so malformed input never reaches a network call or a URL.
+var labelRE = regexp.MustCompile(`^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$`)
+
+// ValidLabel reports whether s is a safe, well-formed domain label.
+func ValidLabel(s string) bool {
+	return labelRE.MatchString(s)
+}
 
 // Options controls how candidate labels are generated.
 type Options struct {
@@ -62,6 +74,9 @@ func Labels(opts Options) []string {
 		if opts.MaxLabelLength > 0 && len(s) > opts.MaxLabelLength {
 			return
 		}
+		if !ValidLabel(s) {
+			return
+		}
 		if !seen[s] {
 			seen[s] = true
 			out = append(out, s)
@@ -106,10 +121,18 @@ func Labels(opts Options) []string {
 // Domains combines labels with the given TLDs, producing fully qualified
 // domain name candidates (e.g. "musichub.com").
 func Domains(labels []string, tlds []string) []string {
+	tldRE := regexp.MustCompile(`^[a-z]{2,24}$`)
+
 	out := make([]string, 0, len(labels)*len(tlds))
 	for _, l := range labels {
+		if !ValidLabel(l) {
+			continue
+		}
 		for _, t := range tlds {
-			t = strings.TrimPrefix(t, ".")
+			t = strings.ToLower(strings.TrimSpace(strings.TrimPrefix(t, ".")))
+			if !tldRE.MatchString(t) {
+				continue
+			}
 			out = append(out, l+"."+t)
 		}
 	}

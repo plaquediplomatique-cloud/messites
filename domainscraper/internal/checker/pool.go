@@ -2,6 +2,7 @@ package checker
 
 import (
 	"context"
+	"fmt"
 	"sync"
 )
 
@@ -27,7 +28,7 @@ func RunPool(ctx context.Context, c *Checker, domains []string, workers int, onR
 					return
 				default:
 				}
-				results <- c.Check(ctx, domain)
+				results <- safeCheck(ctx, c, domain)
 			}
 		}()
 	}
@@ -51,4 +52,17 @@ func RunPool(ctx context.Context, c *Checker, domains []string, workers int, onR
 	for r := range results {
 		onResult(r)
 	}
+}
+
+// safeCheck wraps c.Check with an extra panic guard at the worker-loop
+// level, on top of the one inside Check itself: belt-and-suspenders so a
+// single misbehaving goroutine can never crash the whole pool or leave the
+// results channel's writer stuck holding a lock.
+func safeCheck(ctx context.Context, c *Checker, domain string) (r Result) {
+	defer func() {
+		if rec := recover(); rec != nil {
+			r = Result{Domain: domain, Status: Error, Err: fmt.Errorf("worker panic: %v", rec)}
+		}
+	}()
+	return c.Check(ctx, domain)
 }

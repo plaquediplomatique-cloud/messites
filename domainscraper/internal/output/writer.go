@@ -23,7 +23,7 @@ func NewCSV(path string) (*CSVWriter, error) {
 		return nil, fmt.Errorf("create output file: %w", err)
 	}
 	w := csv.NewWriter(f)
-	if err := w.Write([]string{"domain", "status"}); err != nil {
+	if err := w.Write([]string{"domain", "status", "source"}); err != nil {
 		f.Close()
 		return nil, err
 	}
@@ -33,7 +33,7 @@ func NewCSV(path string) (*CSVWriter, error) {
 
 // Write appends one result and flushes to disk immediately.
 func (c *CSVWriter) Write(r checker.Result) error {
-	if err := c.w.Write([]string{r.Domain, r.Status.String()}); err != nil {
+	if err := c.w.Write([]string{r.Domain, r.Status.String(), r.Source}); err != nil {
 		return err
 	}
 	c.w.Flush()
